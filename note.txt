@@ -1,0 +1,109 @@
+Check empty get(): @if(!$result->isEmpty())
+Check empty first(): if ($result) { } 
+
+/*Tạo 1 module và phân quyền*/
+- php artisan make:model Stock -m
+- Tạo bảng: php artisan migrate
+- php artisan make:controller --resource StockController
+- php artisan make:policy StockPolicy --model=Stock
+=> AuthServiceProvider
+$this->StockPolicy;
+public function StockPolicy()
+{
+    Gate::define('stock_index', [StockPolicy::class, 'index']);
+    Gate::define('stock_create', [StockPolicy::class, 'create']);
+    Gate::define('stock_edit', [StockPolicy::class, 'edit']);
+    Gate::define('stock_destroy', [StockPolicy::class, 'destroy']);
+}
+=> config/permissions.php
++ add: modules stock
++ add:
+'stock' => [
+    'index' => 'stock_index',
+    'create' => 'stock_create',
+    'edit' => 'stock_edit',
+    'destroy' => 'stock_destroy',
+],
+=> router
+Route::group(['prefix' => '/stock'], function () {
+    Route::get('/index', [StockController::class, 'index'])->name('stock.index')->middleware('can:stock_index');
+    Route::get('/create', [StockController::class, 'create'])->name('stock.create')->middleware('can:stock_create');
+    Route::post('/store', [StockController::class, 'store'])->name('stock.store')->middleware('can:stock_create');
+    Route::get('/edit/{id}', [StockController::class, 'edit'])->name('stock.edit')->middleware('can:stock_edit');
+    Route::post('/update/{id}', [StockController::class, 'update'])->name('stock.update')->middleware('can:stock_edit');
+    Route::get('/destroy/{id}', [StockController::class, 'destroy'])->name('stock.destroy')->middleware('can:stock_destroy');
+});
+=> ngoài blade
+@can('stock_index')
+
+@endcan
+@can('stock_create')
+
+@endcan
+@can('stock_edit')
+
+@endcan
+/*end*/
+//Carbon
+// $date = \Carbon\Carbon::now();
+// $startOfWeek = $date->startOfWeek();
+$today = \Carbon\Carbon::now();
+$mo =  \Carbon\Carbon::now()->startOfWeek();
+$tu =  \Carbon\Carbon::now()->startOfWeek()->addDays(1); //thứ 3
+$we =  \Carbon\Carbon::now()->startOfWeek()->addDays(2); //thứ 4
+$th =  \Carbon\Carbon::now()->startOfWeek()->addDays(3); //thứ 5
+$fr =  \Carbon\Carbon::now()->startOfWeek()->addDays(4); //thứ 6
+$sa =  \Carbon\Carbon::now()->startOfWeek()->addDays(5); //thứ 7
+$su =  \Carbon\Carbon::now()->startOfWeek()->addDays(6); //chủ nhật
+// echo $mo; //thứ 2 => gốc 1
+// echo "<br>";
+// echo $tu; //thứ 3
+// echo "<br>";
+// echo $we; //thứ 4
+// echo "<br>";
+// echo $th; //thứ 5 => gốc 2
+// echo "<br>";
+// echo $fr; //thứ 6
+// echo "<br>";
+// echo $sa; //thứ 7
+// echo "<br>";
+// echo $su; //chủ nhật
+if ($today < $th) {
+    echo "Thời gian đặt hàng thứ 2:" . $th;
+} else if ($today >= $th && $today < $su) {
+    echo "Thời gian đặt hàng thứ 5:" . $su;
+} else if ($today == $su) {
+    echo "Thời gian đặt hàng thứ 2:" . $su->addDays(3);
+}
+
+php artisan make:export XxxExport --model=Xxx
+
+
+{"3a3f11740ea0fa0f8de13735ca59aba2":{"code":"SP0138-1","id":138,"title":"X\u00f4 Fireball M\u00e0u Tr\u1eafng","image":"http:\/\/evox.local\/upload\/images\/san-pham\/dung-cu-fireball\/xo-fireball-mau-trang.jpg","quantity":2,"price":"180000","options":{"id_version":"[56]","title_version":"33x29 cm"},"unit":"","price_taxes":"180000","taxes_import":0,"taxes_type":"","taxes_value":0},"d35062bf8192cec824531f42809a2d7b":{"code":"SP0138-2","id":138,"title":"X\u00f4 Fireball M\u00e0u Tr\u1eafng","image":"http:\/\/evox.local\/upload\/images\/san-pham\/dung-cu-fireball\/xo-fireball-mau-trang.jpg","quantity":1,"price":"180000","options":{"id_version":"[55]","title_version":"12x6x3 cm"},"unit":"","price_taxes":"180000","taxes_import":0,"taxes_type":"","taxes_value":0},"3988c7f88ebcb58c6ce932b957b6f332":{"code":"SP0137","id":137,"title":"X\u00f4 Fireball M\u00e0u \u0110\u1ecf","image":"http:\/\/evox.local\/upload\/images\/san-pham\/dung-cu-fireball\/xo-fireball-mau-do.jpg","quantity":1,"price":"0","unit":"","price_taxes":"0","taxes_import":0,"taxes_type":"","taxes_value":0},"02522a2b2726fb0a03bb19f2d8d9524d":{"code":"SP0134","id":134,"title":"Tem Chrome Cho K\u00ednh Sau","image":"http:\/\/evox.local\/upload\/images\/san-pham\/dung-cu-fireball\/tem-chrome-cho-kinh-sau.jpg","quantity":1,"price":"0","unit":"","price_taxes":"0","taxes_import":0,"taxes_type":"","taxes_value":0}}
+
+
+   // $array = array();
+        // $data = DB::table('onyx_posts')->select('post_content')->where('post_type', 'post')->get();
+        // foreach ($data as $item) {
+        //     if (preg_match_all('/<img[^>]*src="([^"]+)"/i', $item->post_content, $matches)) {
+        //         foreach ($matches[1] as $key => $value) {
+        //             echo '<pre>';
+        //             array_push($array, $value);
+        //             echo '</pre>';
+        //         }
+        //     }
+        // }
+        // // foreach ($array as $item) {
+        // //     $item = explode("?", $item);
+        // //     $pathinfo = pathinfo($item[0]);
+        // //     $url = $item[0];
+        // //     $ch = curl_init($url);
+        // //     $fp = fopen(base_path("path/" . $pathinfo['filename'] . '.' . $pathinfo['extension']), "wb");
+        // //     curl_setopt($ch, CURLOPT_FILE, $fp);
+        // //     curl_setopt($ch, CURLOPT_HEADER, 0);
+        // //     curl_exec($ch);
+        // //     curl_close($ch);
+        // //     fclose($fp);
+        // // }
+        // // die;
+        // dd($array);

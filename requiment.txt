@@ -1,0 +1,15 @@
+- Thuật toán sản phẩm:
+- Sản phẩm 
+    * Quản lí kho hàng sản phẩm đơn giản:
+        + Quản lý kho hàng: Có/Không
+        + Tổng số lượng tồn kho
+            - Chi nhánh
+        + Cho phép tiếp tục đặt hàng khi hết hàng: Có/Không
+        =========CODE============
+        - Lưu vào bảng "product_stocks": nơi để lưu "Quản lý tồn kho của sản phẩm"
+            + kiểu sản phẩm: "đơn giản/biến thể"
+            + chi nhánh: address_id
+            + Số lượng: value
+            + Số lượng sản phẩm khuyến mại: stockDeal
+            + Số lượng sản phẩm đang chờ nhập: stockComing
+        =========END CODE========

@@ -1,0 +1,101 @@
+<?php $__env->startSection('title'); ?>
+<title>Cập nhập nhóm các phòng,ban</title>
+<?php $__env->stopSection(); ?>
+<!--START: breadcrumb -->
+<?php $__env->startSection('breadcrumb'); ?>
+<?php
+$array = array(
+    [
+        "title" => "Nhóm các phòng,ban",
+        "src" => route('faculty_categories.index'),
+    ],
+    [
+        "title" => "Cập nhập danh mục",
+        "src" => 'javascript:void(0)',
+    ]
+);
+echo breadcrumb_backend($array);
+?>
+<?php $__env->stopSection(); ?>
+<!--END: breadcrumb -->
+<?php $__env->startSection('content'); ?>
+<div class="content">
+    <div class=" flex items-center mt-8">
+        <h1 class="text-lg font-medium mr-auto">
+            Cập nhập nhóm các phòng,ban
+        </h1>
+    </div>
+    <form class="grid grid-cols-12 gap-6 mt-5" role="form" action="<?php echo e(route('faculty_categories.update',['id' => $detail->id])); ?>" method="post" enctype="multipart/form-data">
+        <div class=" col-span-12 lg:col-span-8">
+            <ul class="nav nav-link-tabs flex-wrap" role="tablist">
+
+                <li id="example-homepage-tab" class="nav-item" role="presentation">
+                    <button class="nav-link w-full py-2 active" data-tw-toggle="pill" data-tw-target="#example-tab-homepage" type="button" role="tab" aria-controls="example-tab-homepage" aria-selected="true">Thông tin chung</button>
+                </li>
+
+            </ul>
+            <!-- BEGIN: Form Layout -->
+
+            <div class=" box p-5">
+                <?php echo $__env->make('components.alert-error', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                <?php echo csrf_field(); ?>
+                <div class="tab-content">
+                    <div id="example-tab-homepage" class="tab-pane leading-relaxed active" role="tabpanel" aria-labelledby="example-homepage-tab">
+                        <div>
+                            <label class="form-label text-base font-semibold">Tên danh mục</label>
+                            <?php echo Form::text('title', $detail->title, ['class' => 'form-control w-full title']); ?>
+                        </div>
+                        <div class="mt-3">
+                            <label class="form-label text-base font-semibold">Đường dẫn</label>
+                            <div class="input-group">
+                                <div class="input-group-text"><span class="vertical-1"><?php echo url(''); ?></span></div>
+                                <?php echo Form::text('slug', $detail->slug, ['class' => 'form-control canonical', 'data-flag' => 0]); ?>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <label class="form-label text-base font-semibold">Mô tả</label>
+                            <div class="mt-2">
+                                <?php echo Form::textarea('description', $detail->description, ['id' => 'ckDescription', 'class' => 'ck-editor', 'style' => 'height:60px;font-size:14px;line-height:18px;border:1px solid #ddd;padding:10px']); ?>
+                            </div>
+                        </div>
+                        <!-- start: Album Ảnh -->
+                        <div class=" box p-5 mt-3">
+                            <div class="mt-3">
+                                <?php echo $__env->make('components.dropzone',['action' => 'update'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                            </div>
+                        </div>
+                        <!-- END: Album Ảnh -->
+                    </div>
+
+                </div>
+            </div>
+            <div class=" box p-5 mt-3">
+                <!-- start: SEO -->
+                <?php echo $__env->make('components.seo', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+                <!-- end: SEO -->
+                <div class="text-right mt-5">
+                    <button type="submit" class="btn btn-primary w-24">Cập nhập</button>
+                </div>
+            </div>
+            <!-- END: Form Layout -->
+        </div>
+        <div class=" col-span-12 lg:col-span-4">
+            <?php echo $__env->make('polylang.edit', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+            <div class="mt-3 box p-5 pt-3 mt-3 hidden">
+                <div>
+                    <label class="form-label text-base font-semibold">Chọn danh mục cha</label>
+                    <?php echo Form::select('parentid', $htmlCatalogue, $detail->parentid, ['class' => 'tom-select tom-select-custom w-full', 'data-placeholder' => "Select your favorite actors"]); ?>
+                </div>
+            </div>
+            <?php echo $__env->make('components.image',['action' => 'update','name' => 'image','title'=> 'Ảnh đại diện'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+            <div class="hidden">
+                <?php echo $__env->make('components.image',['action' => 'update','name' => 'banner','title'=> 'Banner'], \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+
+            </div>
+            <?php echo $__env->make('components.publish', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+
+        </div>
+    </form>
+</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('dashboard.layout.dashboard', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\chuan.local\resources\views/faculty/backend/category/edit.blade.php ENDPATH**/ ?>
